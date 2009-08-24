@@ -1,0 +1,21 @@
+<../../../mkconfig
+
+TARG=\
+	get.dis\
+	set.dis\
+	walk.dis\
+
+SYSMODULES=\
+	arg.m\
+	bufio.m\
+	daytime.m\
+	draw.m\
+	keyring.m\
+	string.m\
+	sys.m\
+	snmp.m\
+	snmpclient.m\
+
+DISBIN=$ROOT/dis/snmp
+
+<$ROOT/mkfiles/mkdis

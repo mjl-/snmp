@@ -1,0 +1,6 @@
+<../../mkconfig
+
+DIRS=\
+	snmp\
+
+<$ROOT/mkfiles/mksubdirs

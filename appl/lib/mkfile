@@ -1,0 +1,15 @@
+<../../mkconfig
+
+TARG=\
+	snmp.dis\
+	snmpclient.dis\
+
+SYSMODULES=\
+	sys.m\
+	bufio.m\
+	snmp.m\
+	snmpclient.m\
+
+DISBIN=$ROOT/dis/lib
+
+<$ROOT/mkfiles/mkdis

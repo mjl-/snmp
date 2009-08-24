@@ -1,0 +1,7 @@
+<../mkconfig
+
+MODS=\
+	snmp.m\
+	snmpclient.m\
+
+<mkmod

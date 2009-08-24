@@ -1,0 +1,7 @@
+<../mkconfig
+
+MAN=\
+	1/snmpget\
+	2/snmpclient\
+
+<mkman

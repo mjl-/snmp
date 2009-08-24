@@ -1,0 +1,178 @@
+.TH SNMPCLIENT 2
+.SH NAME
+snmpclient: Snmpc, walker \- snmp client library
+.SH SYNOPSIS
+.EX
+.EE
+.SH DESCRIPTION
+.B Snmpclient
+is an snmp client library.
+.I Snmpc
+is a client instance with which requests can be made.  It has the following functions:
+
+.TP
+.B Snmpc.new()
+Returns new
+.I Snmpc
+instance with default settings.
+Further options can be set with
+.BR setopt .
+Snmp operations can only be performed after having called
+.BR init .
+
+.TP
+.IB s. setopt( c , " arg" )
+Set standard client program options, see
+.IR snmpget (1)
+for supported options.
+
+.TP
+.IB s. init()
+Set up
+.I Snmpc
+for snmp transactions, by setting up a udp file descriptor.
+Before calling
+.B init
+set the
+.I Snmpc
+field
+.I addr
+to a full udp address or a host name or ip address (in this last case the standard snmp port is used).
+
+.TP
+.IB s. clone()
+Return a copy of the
+.I Snmpc
+instance, ready for snmp transactions.
+This is useful for doing concurrent snmp transactions to a single device.
+
+.HP
+.IB s. get( oid )
+.IB s. getm( l )
+.IB s. set( oid , " value" )
+.IB s. setm( l )
+.br
+Request the value of
+.IR oid .
+The object id, value or error message is returned.
+For
+.B getm
+a list of object id's is requested and a list of object id-value pairs is returned.
+.B Set
+and
+.B setm
+set the object id-value pair(s), returning the new values after modification.
+
+.TP
+.IB s. next( oid )
+Requests the object id and value that follows
+.I oid
+on the snmp server.
+The end of the servers's MIB is indicated by returning a nil object id and value.
+
+.TP
+.IB s. nextbulk( oid,
+.IB max )
+Requests a packet full of object id-value pairs, the first object id the one that follows
+.I oid
+on the snmp server.
+.I Max
+specifies the maximum number of pairs the server should return.
+Negative
+.I max
+requests as many pairs as possible.
+Note that ``Val.Other'' with value ``EVendofmibview'' is returned in the list at the end of the server's MIB.
+This operation is only valid for snmp version 2c.
+
+.TP
+.IB s. walk( oid )
+Wrapper around
+.B next
+and
+.BR nextbulk .
+For snmp version 1 servers, this calls
+.B next
+and returns a list of with one pair.
+For snmp version 2c servers, this calls
+.B nextbulk
+and returns the list of pairs that came in the response packet.
+Note that this does not do a full walk of the entire object id space, but only a single packet.
+Like
+.BR nextbulk ,
+the end of the server's MIB is indicated by a ``Val.Other'' with value ``VEendofmibview''.
+
+.PP
+.BI Walker( snmpc,
+.IB oid )
+performs a full walk of the sub tree rooted at
+.I oid .
+It returns a channel over which lists of object id-value pairs are sent, or an error string.
+The end of the walk is indicated by an empty list.
+
+.PP
+Object id's in arguments to the functions above are represented as strings, numbers separated by a dot, no leading dot.
+Values (as returned by the functions, or as parameters to
+.B set
+and
+.I setm
+are represeted as strings too.  The strings consist of the type, followed by a colon, followed by the value.
+The following value types are recognized:
+.TP
+.B i
+Integer
+.TP
+.B s
+Octet string, formatted in hexadecimal (in case it contains nul or non-ascii characters).
+.TP
+.B S
+Octet string, formatted as ascii
+.TP
+.B oid
+Object id, dot-separated numbers, no leading dot.
+.TP
+.B ip
+IPv4 address.
+.TP
+.B c
+Counter
+.TP
+.B g
+Gauge
+.TP
+.B u
+Unsigned integer
+.TP
+.B t
+Time ticks
+.TP
+.B opaque
+Opaque data, formatted as hexadecimal.
+.TP
+.B C
+Counter, 64 bits long.
+.TP
+.B null
+Has no value.  This should not be returned by snmp servers.
+.TP
+.B other
+Special values, e.g. for denoting the last object id the server knows about.  The value is a number.
+
+.SH SOURCE
+.B module/snmpclient.m
+.br
+.B appl/lib/snmpclient.b
+.SH SEE ALSO
+Internet RFC's, RFC3416.
+.br
+.IR snmpget (1),
+.IR asn1 (2).
+.SH BUGS
+SNMP, ASN.1
+.br
+Support for snmp version 1 and 2c only.
+.br
+No support for using symbolic names (MIB/SMI) yet.
+.br
+No support for traps yet.
+.br
+To keep bulk request simple, only one repeater is allowed, no non-repeaters.

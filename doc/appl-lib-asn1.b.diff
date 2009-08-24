@@ -1,0 +1,30 @@
+diff -r 6f2e45ada4de appl/lib/asn1.b
+--- a/appl/lib/asn1.b	Thu Jul 30 18:46:39 2009 +0200
++++ b/appl/lib/asn1.b	Mon Aug 24 20:43:23 2009 +0200
+@@ -350,7 +350,7 @@
+ 	more := 1;
+ 	while(more && i < n) {
+ 		v := int a[i++];
+-		if(num & 16r7F000000) {
++		if(0 && (num & 16r7F000000)) {  # xxx needs better fix
+ 			err = ETOOBIG;
+ 			break;
+ 		}
+@@ -358,7 +358,7 @@
+ 		more = v & 16r80;
+ 		num |= (v & 16r7F);
+ 	}
+-	if(n == i)
++	if(more && n == i)
+ 		err = ESHORT;
+ 	return (err, i, num);
+ }
+@@ -444,6 +444,8 @@
+ 					err = EVALLEN;
+ 				break cloop;
+ 			}
++			if(length < 0 && i == n)
++				break cloop;
+ 			oldi := i;
+ 			(err, i, elem) = ber_decode(a, i, n);
+ 			if(err != OK)

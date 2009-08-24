@@ -1,0 +1,54 @@
+# status
+
+tools & library are usable, not heavily tested.
+trap listener, server, snmp v3, and smi/mib parser are absent and might come later.
+
+
+# about
+
+this package contains an snmp client library and tools using these
+libraries.  only for versions 1 and 2, not version 3 (perhaps later).
+it does not yet have a trap listener.  it does not now include an
+snmp server, but might in the future.  likewise, it does not parse
+mib/smi files, but a tool to convert mib's to files for a name-oid
+mapping would be nice.
+
+see the manual pages snmpget(1) and snmpclient(2) for details.
+
+
+# download
+
+get the latest version from:
+
+	http://www.ueber.net/code/r/snmp
+
+
+# install
+
+to install, first make a file "mkconfig" similar to your inferno's
+installation mkconfig (symlink/bind it).  create "/dis/snmp", to
+hold the tools.  now type "mk install" to compile and install.
+
+when building from within inferno, insert SYSHOST=Inferno and ROOT=
+in the mk invocations to override the values in the mkconfig.
+
+apply the patch doc/appl-lib-asn1.b.diff to inferno's appl/lib/asn1.b.
+
+
+# licence & author
+
+this code is in the public domain.  the code is written by mechiel
+lukkien, reachable at mechiel@xs4all.nl or mechiel@ueber.net.
+
+
+# todo
+
+- should we have more strict max-repetitions in bulk request?  and/or
+  handle toobig errors by retransmitting with fewer values?  the first
+  is probably not necessary, the second can be fixed by the caller.
+- make proper modifications for asn1.b
+
+- implement listener for traps
+- implement server
+- implement snmpv3
+- implement tool to convert mib's to files for name <->oid mapping
