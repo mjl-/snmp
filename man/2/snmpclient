@@ -3,6 +3,7 @@
 snmpclient: Snmpc, walker \- snmp client library
 .SH SYNOPSIS
 .EX
+(see /module/snmpclient.m for the definition of Snmpc)
 .EE
 .SH DESCRIPTION
 .B Snmpclient

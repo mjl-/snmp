@@ -5,8 +5,12 @@ TARG=\
 	snmpclient.dis\
 
 SYSMODULES=\
+	arg.m\
+	asn1.m\
+	ip.m\
+	lists.m\
+	string.m\
 	sys.m\
-	bufio.m\
 	snmp.m\
 	snmpclient.m\
 

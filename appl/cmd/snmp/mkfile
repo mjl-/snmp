@@ -8,10 +8,8 @@ TARG=\
 SYSMODULES=\
 	arg.m\
 	bufio.m\
-	daytime.m\
 	draw.m\
-	keyring.m\
-	string.m\
+	lists.m\
 	sys.m\
 	snmp.m\
 	snmpclient.m\
