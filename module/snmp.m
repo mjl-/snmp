@@ -1,4 +1,5 @@
-Snmp: module {
+Snmp: module
+{
 	PATH:	con "/dis/lib/snmp.dis";
 
 	dflag:	int;

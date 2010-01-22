@@ -25,9 +25,10 @@ get the latest version from:
 
 # install
 
-to install, first make a file "mkconfig" similar to your inferno's
-installation mkconfig (symlink/bind it).  create "/dis/snmp", to
-hold the tools.  now type "mk install" to compile and install.
+create "/dis/snmp" in your inferno installation.
+
+make sure you have $ROOT set, now run "mk install" to compile and
+install the files.
 
 when building from within inferno, insert SYSHOST=Inferno and ROOT=
 in the mk invocations to override the values in the mkconfig.

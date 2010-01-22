@@ -1,4 +1,5 @@
-Snmpclient: module {
+Snmpclient: module
+{
 	PATH:   con "/dis/lib/snmpclient.dis";
 
 	dflag:  int;
