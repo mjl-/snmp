@@ -39,7 +39,7 @@ apply the patch doc/appl-lib-asn1.b.diff to inferno's appl/lib/asn1.b.
 # licence & author
 
 this code is in the public domain.  the code is written by mechiel
-lukkien, reachable at mechiel@xs4all.nl or mechiel@ueber.net.
+lukkien, reachable at mechiel@ueber.net.
 
 
 # todo

@@ -4,6 +4,8 @@ include "sys.m";
 	sys: Sys;
 	sprint: import sys;
 include "arg.m";
+include "dial.m";
+	dial: Dial;
 include "string.m";
 	str: String;
 include "lists.m";
@@ -21,6 +23,7 @@ usage = "[-v 1|2c] [-c community] [-t timeout] [-r retries]";
 init()
 {
 	sys = load Sys Sys->PATH;
+	dial = load Dial Dial->PATH;
 	str = load String String->PATH;
 	lists = load Lists Lists->PATH;
 	asn1 = load ASN1 ASN1->PATH;
@@ -79,22 +82,13 @@ Snmpc.setopt(s: self ref Snmpc, c: int, arg: Arg)
 	}
 }
 
-noexcl(s: string): int
-{
-	for(i := 0; i < len s; i++)
-		if(s[i] == '!')
-			return 0;
-	return 1;
-}
-
 Snmpc.init(s: self ref Snmpc): string
 {
-	ok: int;
-	if(noexcl(s.addr))
-		s.addr = sprint("udp!%s!snmp", s.addr);
-	(ok, s.conn) = sys->dial(s.addr, nil);
-	if(ok < 0)
-		return sprint("dial %q: %r", s.addr);
+	addr := dial->netmkaddr(s.addr, "udp", "snmp");
+	c := dial->dial(addr, nil);
+	if(c == nil)
+		return sprint("dial %q: %r", addr);
+	s.conn = *c;
 	return nil;
 }
 
